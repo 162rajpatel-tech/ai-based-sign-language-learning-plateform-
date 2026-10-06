@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignAI — Interactive AI Sign Language Learning Platform</title>
+    <meta name="description" content="Learn American Sign Language in real-time using computer vision and machine learning hand landmark tracking.">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🤟</text></svg>">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="app-navbar">
+        <div class="brand-container">
+            <div class="brand-logo-icon">🤟</div>
+            <div>
+                <h1 class="brand-title">SignAI Platform</h1>
+                <div class="brand-subtitle">Computer Vision & AI Practice Lab</div>
+            </div>
+        </div>
+
+        <div class="nav-actions">
+            <!-- Gamification Status Pills -->
+            <div class="stat-pill streak" title="Consecutive Practice Days">
+                <span>🔥</span>
+                <span id="streak-count-text">{{ user.streak_days or 1 }} Day Streak</span>
+            </div>
+
+            <div class="stat-pill xp" title="Earned Experience Points">
+                <span>⚡</span>
+                <span id="user-xp-text">{{ user.total_xp or 0 }} XP</span>
+            </div>
+
+            <div class="stat-pill" title="Overall Sign Mastery">
+                <span>🎯</span>
+                <span id="mastery-rate-text">0%</span>
+            </div>
+
+            <button class="btn-header" id="open-badges-btn" title="View unlocked achievements">
+                <span>🏅</span>
+                <span>Badges (<span id="badges-count-text">0</span>)</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="app-container">
+        
+        <!-- Mode Switcher Bar -->
+        <section class="mode-bar">
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="learn">📚 Guided Learn</button>
+                <button class="mode-btn" data-mode="practice">🎯 Free Practice</button>
+                <button class="mode-btn" data-mode="quiz" id="start-quiz-btn">⚡ Quiz Challenge</button>
+            </div>
+
+            <div class="system-status" id="camera-status-badge">
+                <span class="status-dot"></span>
+                <span id="camera-status-text">Initializing Vision Pipeline...</span>
+            </div>
+        </section>
+
+        <!-- Main Tri-Column Studio -->
+        <div class="main-grid">
+
+            <!-- Left Column: Instructional Reference Studio -->
+            <aside class="glass-panel reference-studio">
+                <div class="panel-header">
+                    <h2 class="panel-title">📖 Reference Guide</h2>
+                    <span class="panel-badge" id="target-sign-code">HELLO</span>
+                </div>
+
+                <div class="reference-body">
+                    <!-- Target Sign Card -->
+                    <div class="sign-hero-card">
+                        <div class="sign-meta-tags">
+                            <span class="meta-tag category" id="target-sign-category">Alphabet</span>
+                            <span class="meta-tag difficulty" id="target-sign-difficulty">Beginner</span>
+                        </div>
+
+                        <!-- Procedural / Vector SVG Hand Display -->
+                        <div class="sign-svg-container" id="sign-svg-container">
+                            <!-- Populated dynamically by lessons.js -->
+                        </div>
+
+                        <h3 class="target-title" id="target-sign-title">Letter A</h3>
+                        <p class="target-desc" id="target-sign-description">
+                            Make a tight fist with all four fingers tucked in. Rest your thumb upright along the side of your index finger.
+                        </p>
+                    </div>
+
+                    <!-- Anatomical Finger Checklist -->
+                    <div>
+                        <h4 class="section-subtitle">🖐 Anatomical Checklist</h4>
+                        <div class="finger-checklist" id="finger-checklist">
+                            <!-- Populated dynamically with live status -->
+                        </div>
+                    </div>
+
+                    <!-- Coaching Hints -->
+                    <div class="hints-card">
+                        <h4 class="section-subtitle">💡 Alignment Tips</h4>
+                        <div class="hints-list" id="hints-container">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Mnemonic Fun Fact -->
+                    <div class="fun-fact-box" id="fun-fact-text">
+                        Practice holding your posture steady for 1.5 seconds to register a mastery score.
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Column: Live Camera Arena & Recognition HUD -->
+            <section class="camera-arena">
+                <!-- Webcam Viewport with Canvas Overlay -->
+                <div class="viewport-wrapper">
+                    <video id="webcam-video" autoplay playsinline muted></video>
+                    <canvas id="skeleton-canvas"></canvas>
+
+                    <!-- Live Subtitle Overlay -->
+                    <div class="live-subtitle-bar" id="live-subtitle-bar">
+                        <span class="subtitle-label">💬 SIGN TRANSLATION:</span>
+                        <span class="subtitle-text" id="live-subtitle-text">—</span>
+                        <span class="subtitle-hint" id="live-subtitle-hint">Perform a sign to translate</span>
+                    </div>
+
+                    <!-- Top HUD Controls -->
+                    <div class="viewport-hud">
+                        <div class="hud-pill">
+                            <span>📹 Real-time Landmark Stream</span>
+                        </div>
+                        <div class="hud-controls">
+                            <button class="icon-btn active" id="mirror-toggle" title="Toggle Mirror View">🪞</button>
+                            <button class="icon-btn active" id="audio-toggle" title="Toggle Sound Feedback">🔊</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recognition Dashboard -->
+                <div class="recognition-dashboard">
+                    <!-- Predicted Sign -->
+                    <div class="prediction-box">
+                        <div class="hud-label">AI Detected</div>
+                        <div class="prediction-badge badge-idle" id="predicted-sign-badge">—</div>
+                    </div>
+
+                    <!-- Dynamic Feedback & Confidence Meter -->
+                    <div class="feedback-box">
+                        <div class="feedback-banner feedback-align" id="feedback-banner">
+                            <span id="feedback-message">Bring your hand into the camera view to begin</span>
+                        </div>
+
+                        <div class="meter-wrapper">
+                            <div class="meter-header">
+                                <span>Recognition Confidence</span>
+                                <span id="confidence-value">0%</span>
+                            </div>
+                            <div class="meter-track">
+                                <div class="meter-fill" id="confidence-meter-bar"></div>
+                            </div>
+                        </div>
+
+                        <!-- Top-3 candidate probabilities -->
+                        <div class="top-predictions-container" id="top-predictions-list" style="display: flex; gap: 8px; justify-content: center; font-size: 11px; color: var(--text-muted);">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Sustained Hold Ring -->
+                    <div class="hold-box" title="Hold steady for 1.4s to confirm mastery">
+                        <div class="circular-progress">
+                            <svg width="76" height="76">
+                                <circle class="circle-bg" cx="38" cy="38" r="32"></circle>
+                                <circle class="circle-val" id="hold-progress-circle" cx="38" cy="38" r="32"></circle>
+                            </svg>
+                            <span class="hold-text" id="hold-percent-text">0%</span>
+                        </div>
+                        <div class="hud-label" style="margin-top: 4px;">Hold Steady</div>
+                    </div>
+                </div>
+
+                <!-- Sign-to-Text Sentence Composer -->
+                <div class="sentence-composer-card">
+                    <div class="composer-header">
+                        <div class="composer-title-group">
+                            <span class="composer-title">✍️ Live Sign-to-Text Composer</span>
+                            <span class="composer-subtitle">Transcribes recognized signs into words & speech</span>
+                        </div>
+                        <div class="composer-options">
+                            <label class="toggle-label" title="Automatically commits letter/word on sustained hold">
+                                <input type="checkbox" id="toggle-auto-append" checked>
+                                <span>Auto-Append</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="composer-input-wrapper">
+                        <textarea id="composed-text-box" class="composer-textarea" rows="2" placeholder="Signs you perform will automatically transcribe into text here..."></textarea>
+                    </div>
+
+                    <div class="composer-toolbar">
+                        <div class="toolbar-left">
+                            <button class="btn-tool primary" id="btn-speak-text" title="Read translated text aloud using Text-to-Speech">🔊 Speak Aloud</button>
+                            <button class="btn-tool" id="btn-commit-sign" title="Manually append current sign">➕ Commit Sign</button>
+                            <button class="btn-tool" id="btn-add-space" title="Insert a space">␣ Space</button>
+                            <button class="btn-tool" id="btn-backspace" title="Delete last character">⌫ Backspace</button>
+                        </div>
+                        <div class="toolbar-right">
+                            <button class="btn-tool secondary" id="btn-copy-text" title="Copy text to clipboard">📋 Copy</button>
+                            <button class="btn-tool danger" id="btn-clear-text" title="Clear all text">🗑️ Clear</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Related to Sign Given by User (Insights Panel) -->
+                <div class="glass-panel sign-context-panel">
+                    <div class="panel-header">
+                        <h3 class="panel-title">📚 Text & Linguistic Context for Performed Sign</h3>
+                        <span class="panel-badge" id="detected-sign-context-badge">Live Context</span>
+                    </div>
+                    <div class="panel-body" id="related-text-container" style="padding: 18px;">
+                        <!-- Populated dynamically with rich contextual text: Meaning, Usage, Example Sentence, Confusable Signs, Related Vocabulary -->
+                    </div>
+                </div>
+
+                <!-- Navigation Action Bar -->
+                <div class="action-bar">
+                    <button class="btn-action" id="next-sign-btn">
+                        <span>Next Sign</span>
+                        <span>➔</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Right Column: Lesson Selector & Catalog -->
+            <aside class="glass-panel lessons-panel">
+                <div class="panel-header">
+                    <h2 class="panel-title">📚 Lesson Catalog</h2>
+                </div>
+
+                <!-- Tabs for Words vs Expressions -->
+                <div class="category-tabs">
+                    <button class="category-tab active" data-category="word">Meaningful Words</button>
+                    <button class="category-tab" data-category="all">All Expressions</button>
+                </div>
+
+                <!-- Scrollable Lesson Card Grid -->
+                <div class="lessons-grid" id="lessons-grid">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- Quiz Challenge Modal -->
+    <div class="modal-backdrop" id="quiz-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">⚡ Speed Recall Challenge</h3>
+                <button class="close-btn" id="close-quiz-btn">&times;</button>
+            </div>
+            <div class="quiz-arena">
+                <div class="hud-label">Perform this sign now:</div>
+                <div class="quiz-sign-display" id="quiz-target-sign">A</div>
+                <div class="quiz-stats">
+                    <div>⏳ Time Left: <span id="quiz-timer" style="color: var(--primary-amber);">10s</span></div>
+                    <div>🏆 Score: <span id="quiz-score" style="color: var(--primary-emerald);">0</span></div>
+                </div>
+            </div>
+            <p style="font-size: 12px; color: var(--text-muted); text-align: center;">
+                Match the target sign before the timer expires to score 10 points!
+            </p>
+        </div>
+    </div>
+
+    <!-- Badges Modal -->
+    <div class="modal-backdrop" id="badges-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title">🏅 Your Achievements</h3>
+                <button class="close-btn" id="close-badges-btn">&times;</button>
+            </div>
+            <div class="badges-grid" id="badges-grid">
+                <!-- Badges populated dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Frontend Core Scripts -->
+    <script src="/static/js/audio.js"></script>
+    <script src="/static/js/camera.js"></script>
+    <script src="/static/js/lessons.js"></script>
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

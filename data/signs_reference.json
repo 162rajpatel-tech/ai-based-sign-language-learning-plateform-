@@ -1,0 +1,377 @@
+{
+  "HELLO": {
+    "code": "HELLO",
+    "name": "Hello / Greetings",
+    "meaning": "Standard friendly greeting used to acknowledge someone and start a conversation.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Open hand with fingers flat and held together, moving outward from near the temple or forehead in a welcoming salute.",
+    "usage": "Used at the start of any conversation in ASL. Typically accompanied by a warm smile and direct eye contact.",
+    "example_sentence": "Hello! It is wonderful to meet you today.",
+    "related_words": ["Hi", "Greetings", "Welcome", "Good morning", "Hey"],
+    "confusable_with": "Casual waving; ensure hand starts near forehead and moves outward smoothly.",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "extended",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Open your hand completely with fingers straight and together.",
+      "Hold hand near eye level facing outward.",
+      "Keep wrist steady with a slight forward motion."
+    ],
+    "fun_fact": "In Deaf culture, greeting everyone in the room individually is a sign of deep respect."
+  },
+  "THANK_YOU": {
+    "code": "THANK_YOU",
+    "name": "Thank You / Gratitude",
+    "meaning": "Universal expression of gratitude and appreciation.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Flat hand with fingertips touching lightly near lips or chin, then moving forward and slightly down toward the other person.",
+    "usage": "Used whenever someone offers help, a compliment, or a gift. Moving the hand toward the recipient directs the gratitude.",
+    "example_sentence": "Thank you so much for helping me practice!",
+    "related_words": ["Thanks", "Grateful", "Appreciate", "Gratitude", "Much obliged"],
+    "confusable_with": "Looks similar to 'GOOD', but 'GOOD' drops into the opposite open palm, whereas 'THANK YOU' stays airborne.",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "extended",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Touch fingertips lightly near your chin.",
+      "Move hand gently forward toward the camera.",
+      "Face your palm toward yourself as you start."
+    ],
+    "fun_fact": "The gesture originates from speech emerging from the lips with gratitude."
+  },
+  "YES": {
+    "code": "YES",
+    "name": "Yes / Affirmation",
+    "meaning": "Affirmative answer signifying agreement, confirmation, or approval.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Fist held in front of you, tilting up and down twice from the wrist like a head nodding yes.",
+    "usage": "Direct answer to questions, indicating consent or agreement in conversation.",
+    "example_sentence": "Yes, I understand and agree with your idea.",
+    "related_words": ["Affirmative", "Correct", "Agree", "Sure", "Indeed", "Certainly"],
+    "confusable_with": "A static fist; make sure to tilt the wrist forward in a nod.",
+    "finger_rules": {
+      "thumb": "folded_over_fingers",
+      "index": "curled",
+      "middle": "curled",
+      "ring": "curled",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Make a solid fist with knuckles facing forward.",
+      "Nod the fist slightly at the wrist.",
+      "Maintain a pleasant, affirmative facial expression."
+    ],
+    "fun_fact": "The fist visually represents your head nodding up and down."
+  },
+  "NO": {
+    "code": "NO",
+    "name": "No / Negative",
+    "meaning": "Clear refusal or denial signifying disagreement or negation.",
+    "category": "word",
+    "difficulty": "Intermediate",
+    "description": "Index and middle fingers extended together, quickly snapping down onto the thumb tip like a closing beak.",
+    "usage": "Direct response to decline offers or deny questions. Often paired with a slight head shake.",
+    "example_sentence": "No, I do not mind at all.",
+    "related_words": ["Negative", "Nope", "Disagree", "Not", "Deny", "Decline"],
+    "confusable_with": "Letter 'O'; in 'NO', index and middle fingers snap down decisively.",
+    "finger_rules": {
+      "thumb": "touching_index_middle",
+      "index": "curved_touching_thumb",
+      "middle": "curved_touching_thumb",
+      "ring": "curled",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Keep ring and pinky fingers tucked into your palm.",
+      "Bring index and middle fingertips together onto thumb tip.",
+      "Snap fingers down decisively."
+    ],
+    "fun_fact": "Linguists trace this sign back to the letters N and O fingerspelled in rapid succession."
+  },
+  "PLEASE": {
+    "code": "PLEASE",
+    "name": "Please / Politeness",
+    "meaning": "Polite request expressing courtesy and consideration.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Flat open hand with fingers together, placed over the center of the chest and moving in gentle clockwise circles.",
+    "usage": "Used whenever making a request, asking for assistance, or showing good manners.",
+    "example_sentence": "Please could you explain that one more time?",
+    "related_words": ["Kindly", "Polite", "Request", "Courtesy", "Care"],
+    "confusable_with": "'SORRY' (which uses a closed fist over chest; 'PLEASE' uses a flat open palm).",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "extended",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Keep palm open and flat with fingers touching.",
+      "Hold hand against center of upper chest.",
+      "Make a gentle circular rubbing motion."
+    ],
+    "fun_fact": "The circular chest motion symbolizes soothing and softening the heart."
+  },
+  "SORRY": {
+    "code": "SORRY",
+    "name": "Sorry / Apology",
+    "meaning": "Expression of remorse, sympathy, or apology.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Closed fist with thumb across fingers, rubbed in circular motions over the heart / chest area.",
+    "usage": "Used to apologize for an error or express empathy ('I am sorry for your loss').",
+    "example_sentence": "I am so sorry for arriving late to our meeting.",
+    "related_words": ["Apology", "Regret", "Pardon", "Forgive me", "Excuse me"],
+    "confusable_with": "'PLEASE'; remember that 'SORRY' uses a closed fist, while 'PLEASE' uses an open palm.",
+    "finger_rules": {
+      "thumb": "folded_over_fingers",
+      "index": "curled",
+      "middle": "curled",
+      "ring": "curled",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Make a firm fist with thumb wrapped across fingers.",
+      "Place knuckles against your upper chest.",
+      "Rub in a slow circular motion."
+    ],
+    "fun_fact": "Rubbing the fist over the chest symbolizes rubbing away sorrow from the heart."
+  },
+  "HELP": {
+    "code": "HELP",
+    "name": "Help / Assistance",
+    "meaning": "Request for or offer of aid, support, or rescue.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Dominant hand makes an 'A' fist with thumb pointing up, resting atop the flat open palm of the other hand, lifted upward together.",
+    "usage": "Critical emergency and cooperative sign. Directional: moving toward you means 'help me'; moving toward them means 'I help you'.",
+    "example_sentence": "Can you please help me with this project?",
+    "related_words": ["Assist", "Aid", "Support", "Rescue", "Service"],
+    "confusable_with": "Thumb-up gesture; in ASL, the supporting open palm beneath is essential.",
+    "finger_rules": {
+      "thumb": "extended_upright",
+      "index": "curled",
+      "middle": "curled",
+      "ring": "curled",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Make a thumbs-up handshape with your right hand.",
+      "Rest it firmly atop your open left palm.",
+      "Lift both hands upward together."
+    ],
+    "fun_fact": "The bottom flat hand literally lifts up the other hand, symbolizing mutual support."
+  },
+  "I_LOVE_YOU": {
+    "code": "I_LOVE_YOU",
+    "name": "I Love You (ILY)",
+    "meaning": "Deep affection, love, friendship, and warm wishes.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Thumb, index finger, and pinky finger extended simultaneously. Middle and ring fingers folded flat into palm.",
+    "usage": "Known worldwide. Used among family, friends, loved ones, and at community gatherings to express solidarity and care.",
+    "example_sentence": "I love you and I am always here for you!",
+    "related_words": ["Love", "Affection", "Care", "Heart", "Family", "Cherish"],
+    "confusable_with": "The rock-and-roll horns (which tucks the thumb). 'I LOVE YOU' MUST have the thumb extended outward!",
+    "finger_rules": {
+      "thumb": "extended_spread",
+      "index": "extended",
+      "middle": "curled",
+      "ring": "curled",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Extend your thumb, index finger, and pinky finger all at once.",
+      "Keep middle and ring fingers curled firmly against your palm.",
+      "Hold palm facing forward toward the camera."
+    ],
+    "fun_fact": "The ILY sign combines the manual alphabet letters 'I', 'L', and 'Y' into one gesture."
+  },
+  "GOOD": {
+    "code": "GOOD",
+    "name": "Good / Well",
+    "meaning": "Positive evaluation signifying quality, satisfaction, or wellbeing.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Fingertips of dominant flat hand touch lips or chin, then move down into the open palm of the non-dominant hand.",
+    "usage": "Used in greetings ('Good morning'), answering 'How are you?' ('I am good'), and praising work ('Good job!').",
+    "example_sentence": "Everything is going very good today.",
+    "related_words": ["Great", "Well", "Fine", "Wonderful", "Positive", "Nice"],
+    "confusable_with": "'THANK YOU'; 'GOOD' finishes by landing into the palm of the opposite hand.",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "extended",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Flat open hand touches chin lightly.",
+      "Brings hand downward into open waiting palm.",
+      "Smile to emphasize positive feeling."
+    ],
+    "fun_fact": "One of the most frequently used adjectives in American Sign Language."
+  },
+  "STOP": {
+    "code": "STOP",
+    "name": "Stop / Halt",
+    "meaning": "Instruction to halt an action, pause, or cease movement.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "One hand held flat palm-up while the other hand chops down vertically with its outer edge into the palm.",
+    "usage": "Clear directive command used in driving, sports, conversation, or asking someone to cease an action.",
+    "example_sentence": "Please stop and listen for a moment.",
+    "related_words": ["Halt", "Cease", "Pause", "End", "Wait"],
+    "confusable_with": "Casual waving; the firm downward karate-chop motion is unmistakable.",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "extended",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Keep hand straight with fingers glued together.",
+      "Deliver a firm, crisp downward motion.",
+      "Face palm perpendicular to the supporting hand."
+    ],
+    "fun_fact": "The physical chopping contact conveys an immediate, unambiguous boundary."
+  },
+  "OK": {
+    "code": "OK",
+    "name": "Okay / Approved",
+    "meaning": "Agreement, approval, or confirming that everything is satisfactory.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Thumb and index fingertips meet to form a clean circular loop, while middle, ring, and pinky fingers fan upward.",
+    "usage": "Universally recognized sign for agreement, fine condition, or acknowledging instructions.",
+    "example_sentence": "Everything is completely okay, do not worry.",
+    "related_words": ["Alright", "Accepted", "Confirmed", "Fine", "Approved"],
+    "confusable_with": "Letter 'D' (where index is up and other three fingers form loop with thumb).",
+    "finger_rules": {
+      "thumb": "touching_index",
+      "index": "touching_thumb",
+      "middle": "extended",
+      "ring": "extended",
+      "pinky": "extended"
+    },
+    "hints": [
+      "Make a circle by touching the tips of your thumb and index finger.",
+      "Keep other three fingers straight and separated.",
+      "Hold hand stable at chest height."
+    ],
+    "fun_fact": "The circle represents the letter 'O' and the three upright fingers represent 'K'."
+  },
+  "PEACE": {
+    "code": "PEACE",
+    "name": "Peace / Harmony",
+    "meaning": "Symbol of tranquility, unity, victory, and goodwill.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Index and middle fingers extended straight up and separated into a wide 'V' shape, with other fingers curled down by thumb.",
+    "usage": "Global emblem of harmony, peaceful coexistence, and victory.",
+    "example_sentence": "Wishing peace and friendship to all people.",
+    "related_words": ["Harmony", "Tranquility", "Victory", "Calm", "Unity"],
+    "confusable_with": "Letter 'V' or number '2'; culturally identical posture.",
+    "finger_rules": {
+      "thumb": "folded_over_ring",
+      "index": "extended_spread",
+      "middle": "extended_spread",
+      "ring": "curled",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Extend index and middle fingers straight up.",
+      "Spread the two fingers wide apart into a V.",
+      "Lock down ring and pinky fingers with your thumb."
+    ],
+    "fun_fact": "Adopted by Deaf and hearing communities worldwide as a universal greeting of peace."
+  },
+  "WELCOME": {
+    "code": "WELCOME",
+    "name": "Welcome / Hospitality",
+    "meaning": "Gracious invitation or reception extending warmth to guests.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Open hand with palm facing slightly up, swept from out in front of you smoothly toward your body.",
+    "usage": "Used when receiving visitors ('Welcome to our home') or replying to 'Thank you' ('You are welcome').",
+    "example_sentence": "You are always welcome in our community!",
+    "related_words": ["Hospitality", "Invite", "Receive", "Greetings", "You are welcome"],
+    "confusable_with": "Beckoning; welcome is an open-palm gracious sweeping curve toward your body.",
+    "finger_rules": {
+      "thumb": "extended_parallel",
+      "index": "curved",
+      "middle": "curved",
+      "ring": "curved",
+      "pinky": "curved"
+    },
+    "hints": [
+      "Open hand in a welcoming, relaxed curve.",
+      "Start with hand forward at waist level.",
+      "Sweep hand gently inward toward your torso."
+    ],
+    "fun_fact": "The motion visually draws the person into your personal space and warmth."
+  },
+  "CALL_ME": {
+    "code": "CALL_ME",
+    "name": "Call Me / Phone",
+    "meaning": "Instruction or request to communicate via phone or video call.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "Thumb and pinky extended (Shaka sign / 'Y') held up to the ear like a phone receiver.",
+    "usage": "Modern conversational gesture meaning 'Call me later' or 'I will phone you'.",
+    "example_sentence": "Please call me when you arrive home safely.",
+    "related_words": ["Phone", "Ring", "Contact", "Dial", "Message"],
+    "confusable_with": "Letter 'Y'; 'CALL ME' brings the hand to the ear/side of face.",
+    "finger_rules": {
+      "thumb": "extended_spread",
+      "index": "curled",
+      "middle": "curled",
+      "ring": "curled",
+      "pinky": "extended_spread"
+    },
+    "hints": [
+      "Extend only your thumb and pinky finger outward.",
+      "Curl your index, middle, and ring fingers tightly.",
+      "Tilt thumb toward ear and pinky toward mouth."
+    ],
+    "fun_fact": "A universal visual metaphor representing an old-fashioned telephone handset."
+  },
+  "WATER": {
+    "code": "WATER",
+    "name": "Water / Refreshment",
+    "meaning": "Essential liquid for hydration, drinking, and life.",
+    "category": "word",
+    "difficulty": "Beginner",
+    "description": "'W' handshape (index, middle, ring fingers extended upright) tapped gently twice against the chin.",
+    "usage": "Common everyday sign when asking for a drink or talking about hydration.",
+    "example_sentence": "May I please have a glass of water?",
+    "related_words": ["Drink", "Hydration", "Beverage", "Liquid", "Thirst"],
+    "confusable_with": "Letter 'W'; 'WATER' specifically taps the index finger against the chin twice.",
+    "finger_rules": {
+      "thumb": "holding_pinky",
+      "index": "extended_spread",
+      "middle": "extended_spread",
+      "ring": "extended_spread",
+      "pinky": "curled"
+    },
+    "hints": [
+      "Form the letter 'W' with index, middle, and ring fingers up.",
+      "Hold down your pinky with your thumb.",
+      "Tap your index finger twice gently against your chin."
+    ],
+    "fun_fact": "Initialized from the English letter W, placed near the mouth where water is consumed."
+  }
+}
