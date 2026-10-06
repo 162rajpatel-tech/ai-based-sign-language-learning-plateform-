@@ -290,9 +290,16 @@
         </div>
     </div>
 
+    <!-- MediaPipe Tasks Vision (Browser WASM — hand landmark detection runs client-side) -->
+    <script>
+        // Pre-resolve the MediaPipe module so BrowserHandDetector can await it
+        window.mpHandsReady = import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@latest/vision_bundle.mjs');
+    </script>
+
     <!-- Frontend Core Scripts -->
     <script src="/static/js/audio.js"></script>
     <script src="/static/js/camera.js"></script>
+    <script src="/static/js/mediapipe_detector.js"></script>
     <script src="/static/js/lessons.js"></script>
     <script src="/static/js/app.js"></script>
 </body>

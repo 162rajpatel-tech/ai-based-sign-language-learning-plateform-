@@ -1,13 +1,11 @@
-from flask import Flask, render_template, request, jsonify, Response
+from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 import json
-import time
-import cv2
+import os
 from pathlib import Path
 
-from config import HOST, PORT, DEBUG, HAND_LANDMARKER_PATH, SIGNS_REFERENCE_PATH
+from config import HOST, PORT, DEBUG, SIGNS_REFERENCE_PATH
 import database
-from vision.hand_detector import HandDetector
 from vision.sign_classifier import SignClassifier
 
 app = Flask(__name__, static_folder="static", template_folder="templates")
@@ -16,22 +14,13 @@ CORS(app)
 # Initialize database
 database.init_db()
 
-# Initialize Computer Vision & AI models
-detector = HandDetector(model_path=HAND_LANDMARKER_PATH)
+# Initialize ML classifier only (no OpenCV / MediaPipe on server)
 classifier = SignClassifier()
 
 # Load sign references catalog
 with open(SIGNS_REFERENCE_PATH, "r", encoding="utf-8") as f:
     SIGNS_CATALOG = json.load(f)
 
-# Global camera for optional server-side streaming
-server_camera = None
-
-def get_server_camera():
-    global server_camera
-    if server_camera is None:
-        server_camera = cv2.VideoCapture(0)
-    return server_camera
 
 @app.route("/")
 def index():
@@ -39,14 +28,16 @@ def index():
     user = database.get_or_create_user("Learner")
     return render_template("index.html", user=user)
 
+
 @app.route("/api/health")
 def health():
     return jsonify({
         "status": "online",
         "model_loaded": classifier.model is not None,
-        "detector_loaded": detector.detector is not None,
-        "classes_count": len(classifier.label_encoder.classes_) if classifier.label_encoder else 0
+        "classes_count": len(classifier.label_encoder.classes_) if classifier.label_encoder else 0,
+        "detection_mode": "browser-wasm"
     })
+
 
 @app.route("/api/lessons", methods=["GET"])
 def get_lessons():
@@ -66,14 +57,18 @@ def get_lessons():
 
     return jsonify({"lessons": lessons_data, "catalog": SIGNS_CATALOG})
 
+
 @app.route("/api/predict", methods=["POST"])
 def predict():
     """
-    Main prediction endpoint.
-    Accepts:
-    - Base64 video frame (`image`) OR
-    - Pre-extracted 21 landmark points (`landmarks`)
-    - `target_sign` (optional target for comparison and hints)
+    ML classification endpoint.
+
+    Accepts JSON body with:
+    - `landmarks`: list of 21 {x, y, z} objects pre-extracted by browser MediaPipe WASM
+    - `target_sign`: (optional) target sign code for comparison and coaching hints
+
+    Note: Image decoding and hand detection are handled entirely in the browser.
+    The server only runs scikit-learn inference on the extracted landmarks.
     """
     data = request.get_json(force=True, silent=True)
     if not data:
@@ -82,22 +77,15 @@ def predict():
     target_sign = data.get("target_sign")
     landmarks = data.get("landmarks")
 
-    # If raw image base64 provided, run MediaPipe detection on server
-    if not landmarks and data.get("image"):
-        bgr_frame = detector.decode_base64_image(data.get("image"))
-        if bgr_frame is not None:
-            detected_hands = detector.detect_landmarks_from_bgr(bgr_frame)
-            if detected_hands:
-                landmarks = detected_hands[0]
-
-    # Predict sign posture
+    # Predict sign posture using ML model only
     prediction_result = classifier.predict(landmarks, target_sign=target_sign)
 
-    # Attach landmarks in response for client-side visual feedback if server processed the image
+    # Include landmarks in response for any client-side use
     if landmarks:
         prediction_result["landmarks"] = landmarks
 
     return jsonify(prediction_result)
+
 
 @app.route("/api/progress", methods=["GET"])
 def get_progress():
@@ -105,6 +93,7 @@ def get_progress():
     user = database.get_or_create_user("Learner")
     stats = database.get_user_stats(user["id"])
     return jsonify(stats)
+
 
 @app.route("/api/progress/attempt", methods=["POST"])
 def record_attempt():
@@ -136,6 +125,7 @@ def record_attempt():
     result["user_stats"] = refreshed_stats
     return jsonify(result)
 
+
 @app.route("/api/reset", methods=["POST"])
 def reset_progress():
     """Resets practice history for testing."""
@@ -144,38 +134,9 @@ def reset_progress():
     refreshed_stats = database.get_user_stats(user["id"])
     return jsonify({"success": True, "user_stats": refreshed_stats})
 
-def generate_video_stream():
-    """Generator for server-side OpenCV video streaming with MediaPipe overlays."""
-    cap = get_server_camera()
-    while True:
-        success, frame = cap.read()
-        if not success:
-            time.sleep(0.05)
-            continue
-
-        # Flip horizontally for natural mirror feel
-        frame = cv2.flip(frame, 1)
-
-        # Detect landmarks
-        detected_hands = detector.detect_landmarks_from_bgr(frame)
-        if detected_hands:
-            landmarks = detected_hands[0]
-            detector.draw_landmarks_on_image(frame, landmarks, is_correct=False)
-
-        ret, buffer = cv2.imencode('.jpg', frame)
-        frame_bytes = buffer.tobytes()
-
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame_bytes + b'\r\n')
-
-@app.route("/video_feed")
-def video_feed():
-    """MJPEG stream endpoint for server-side camera viewing."""
-    try:
-        return Response(generate_video_stream(), mimetype='multipart/x-mixed-replace; boundary=frame')
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
     print(f"\n🚀 AI Sign Language Learning Platform starting on http://localhost:{PORT}")
+    print("   Hand detection: Browser WASM (MediaPipe Tasks Vision JS)")
+    print("   ML classification: scikit-learn RandomForest (server)")
     app.run(host=HOST, port=PORT, debug=DEBUG)

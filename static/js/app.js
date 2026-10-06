@@ -7,6 +7,7 @@
 class AppController {
     constructor() {
         this.camera = null;
+        this.handDetector = null; // Browser-side MediaPipe WASM detector
         this.lessons = new LessonManager();
         this.audio = window.soundEffects;
 
@@ -58,8 +59,19 @@ class AppController {
         this.camera = new CameraManager(this.dom.webcamVideo, this.dom.skeletonCanvas);
         const camOk = await this.camera.startCamera();
         if (camOk) {
-            this.dom.cameraStatusText.textContent = "Camera Active • AI Landmarker Online";
-            this.dom.cameraStatusBadge.classList.add("badge-active");
+            this.dom.cameraStatusText.textContent = "Loading AI Hand Detector...";
+
+            // 3b. Initialize browser-side MediaPipe hand detector (WASM)
+            this.handDetector = new BrowserHandDetector();
+            const detectorOk = await this.handDetector.init();
+
+            if (detectorOk) {
+                this.dom.cameraStatusText.textContent = "Camera Active ✓ • AI Landmarker Online (Browser)";
+                this.dom.cameraStatusBadge.classList.add("badge-active");
+            } else {
+                this.dom.cameraStatusText.textContent = "Camera Active • Hand Detector Unavailable";
+                this.dom.cameraStatusBadge.classList.add("badge-active");
+            }
             this.startPredictionLoop();
         } else {
             this.dom.cameraStatusText.textContent = "Camera Access Blocked or Unavailable";
@@ -354,15 +366,25 @@ class AppController {
         this.isProcessingFrame = true;
 
         try {
-            const base64Image = this.camera.captureFrameBase64();
-            if (!base64Image) {
-                this.isProcessingFrame = false;
-                return;
+            // --- Step 1: Detect landmarks in the BROWSER via MediaPipe WASM ---
+            let landmarks = null;
+
+            if (this.handDetector && this.handDetector.isReady && this.camera && this.camera.video) {
+                landmarks = this.handDetector.detectFromVideo(this.camera.video);
             }
 
+            // Draw skeleton on canvas immediately for zero-latency visual feedback
+            if (landmarks) {
+                this.camera.drawSkeleton(landmarks, false, 0);
+            } else {
+                this.camera.clearCanvas();
+            }
+
+            // --- Step 2: Send ONLY the 21 landmarks to Flask for ML classification ---
+            // No image bytes sent — server is now lightweight (scikit-learn only)
             const target = this.quiz.active ? this.quiz.currentTarget : this.currentSign;
             const payload = {
-                image: base64Image,
+                landmarks: landmarks,  // null if no hand detected
                 target_sign: target
             };
 
@@ -378,6 +400,12 @@ class AppController {
             }
 
             const data = await response.json();
+
+            // Re-draw skeleton with match state from ML result
+            if (landmarks && data.hand_detected) {
+                this.camera.drawSkeleton(landmarks, data.is_match, data.confidence);
+            }
+
             this.handlePredictionResponse(data, deltaSeconds);
 
         } catch (err) {
