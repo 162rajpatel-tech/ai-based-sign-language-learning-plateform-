@@ -15,8 +15,8 @@ LABEL_ENCODER_PATH = MODELS_DIR / "label_encoder.joblib"
 SIGNS_REFERENCE_PATH = DATA_DIR / "signs_reference.json"
 DATASET_CSV_PATH = DATA_DIR / "sign_landmarks_dataset.csv"
 
-# Database Path
-DB_PATH = BASE_DIR / "sign_language.db"
+# Database Path (use /tmp in serverless environments like Vercel)
+DB_PATH = Path(os.environ.get("DB_PATH", "/tmp/sign_language.db" if os.environ.get("VERCEL") else BASE_DIR / "sign_language.db"))
 
 # Recognition Hyperparameters
 MIN_DETECTION_CONFIDENCE = 0.5

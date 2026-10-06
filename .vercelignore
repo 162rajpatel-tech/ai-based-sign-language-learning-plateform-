@@ -1,0 +1,10 @@
+data/sign_landmarks_dataset.csv
+data/collect_data.py
+data/train_model.py
+data/dataset_generator.py
+sign_language.db
+*.db
+*.sqlite3
+__pycache__/
+*.pyc
+*.md
